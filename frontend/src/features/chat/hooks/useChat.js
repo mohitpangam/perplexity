@@ -8,7 +8,17 @@ export const useChat = () => {
     const dispatch = useDispatch()
 
     async function handleSendMessage({message, chatId}){
+        
         dispatch(setLoading(false))
+
+        if(chatId){
+            dispatch(addNewMessage({
+                chatId,
+                content: message,
+                role: "user"
+            }))  
+        }
+
         const data = await sendMessage({message, chatId})
         const {chat, aiMessage} = data
         if(!chatId){
@@ -16,13 +26,14 @@ export const useChat = () => {
                 chatId: chat._id,
                 title: chat.title
             }))
-            await handleGetchats()
-        }
-        dispatch(addNewMessage({
+            dispatch(addNewMessage({
             chatId: chat._id,
             content: message,
             role: "user"
-        }))
+            }))
+            // await handleGetchats()
+        }
+        
         dispatch(addNewMessage({
             chatId: chat._id,
             content: aiMessage.content,
