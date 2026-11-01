@@ -1,6 +1,7 @@
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-import { sendEmail } from "../services/mail.service.js"; 
+import { sendEmail } from "../services/mail.service.js";
+import redis from "../config/cache.js"; 
 
 export async function registerUser(req, res){
     const {username, email, password} = req.body;
@@ -224,4 +225,17 @@ export async function getMe(req, res){
         }
     })
 
+}
+
+export async function logoutUser(req, res){
+    const token = req.cookies.token
+
+    res.clearCookie("token")
+
+    redis.set(token, Date.now().toString(), "EX", 60*60)
+
+    res.status(200).json({
+        message: "logout successfully"
+    })
+    
 }

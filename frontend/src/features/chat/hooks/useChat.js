@@ -80,7 +80,13 @@ export const useChat = () => {
         dispatch(setLoading(false))
     }
 
+    function handleStartNewChat() {
+        dispatch(setLoading(true))
+        dispatch(setCurrentChatId(null))
+        dispatch(setLoading(false))
+    }
+
     return {
-        intializeSocketConnection, handleSendMessage, handleGetchats, handleOpenChat
+        intializeSocketConnection, handleSendMessage, handleGetchats, handleOpenChat, handleDeleteChat, handleStartNewChat
     }
 }

@@ -35,3 +35,9 @@ export async function verifyEmail({token}){
 
     return response
 }
+
+export async function logout(){
+    const response = await api.get("/api/auth/logout")
+
+    return response.data
+}
